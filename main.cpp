@@ -5,34 +5,37 @@ using namespace std;
 
 
 typedef long long ll;
+
+int findFittingPower(int x) {
+    if (x >= 1e9) {
+        return (int) 1e9;
+    }
+    int res = 1;
+    while (res <= x) {
+        res *= 10;
+    }
+    return res / 10;
+}
+
 class Solution {
 public:
-    int myAtoi(string s) {
-        ll res = 0, min = (1<<31), max = 2'147'483'647;
-        ll abs_min = -min;
-        int i, n = s.size();
-        bool sign;
-        for (i = 0; i < n; ++i) {
-            if (s[i] != ' ') {break;}
+    bool isPalindrome(int x) {
+        if (x < 0) {return 0;}
+        int leftCursor = findFittingPower(x), rightCursor = 1;
+        while (leftCursor > rightCursor)
+        {
+            if (x / leftCursor % 10 != x / rightCursor % 10) {return 0;}
+            leftCursor /= 10;
+            rightCursor *= 10;
         }
-        if (s[i] == '-') {sign = 1; ++i;}
-        else if (s[i] == '+') {sign = 0; ++i;}
-        else {sign = 0;} 
-        
-        for (; i<n; ++i) {
-            if (s[i] != '0') {break;}
-        }
-        for (; i < n; ++i) {
-            int digit = s[i] - '0';
-            if (digit > 9 || digit < 0) {break;}
-            res = res * 10 + digit;
-            if (!sign && res > max) {return max;}
-            if (sign && res > abs_min) {return min;}
-        }
-        return res * (1 - (sign << 1));
+        return 1;
     }
 };
 
+
+
 int main() {
-    Solution().myAtoi("");
+    int num;
+    cin >> num;
+    cout << Solution().isPalindrome(num) << endl;
 }
