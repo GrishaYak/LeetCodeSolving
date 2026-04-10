@@ -2,6 +2,7 @@
 #include "vector"
 #include "algorithm"
 using namespace std;
+
 struct ListNode {
     int val;
     ListNode *next;
@@ -31,13 +32,18 @@ public:
                 summ -= 10;
             }
             cur->val = summ;
-            if (l1->next == nullptr && l2->next == nullptr) {
+            if ((l1 == nullptr || l1->next == nullptr) && (l2 == nullptr || l2->next == nullptr)) {
                 break;
             }
             cur->next = new ListNode();
             cur = cur->next;
+            if (l1 != nullptr)
             l1 = l1->next;
+            if (l2 != nullptr)
             l2 = l2->next;
+        }
+        if (transfer) {
+            cur->next = new ListNode(1);
         }
         return res;
     }
